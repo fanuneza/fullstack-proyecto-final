@@ -11,11 +11,16 @@ npm ci
 npm run dev
 ```
 
-Abre la dirección que muestra Vite. Por defecto usa datos simulados.
+Por defecto usa datos simulados. Para conectar la API, crea `.env.local` en la raíz:
+
+```env
+VITE_USE_MOCK=false
+VITE_API_URL=http://localhost:3000/api
+```
 
 ## Backend
 
-Necesitas PostgreSQL en ejecución y un usuario con contraseña y permiso para crear bases de datos. En otra terminal, desde la raíz del proyecto:
+Con PostgreSQL en ejecución, desde la raíz del proyecto:
 
 ```sh
 cd backend
@@ -27,26 +32,12 @@ export JWT_SECRET="$(openssl rand -hex 32)"
 npm start
 ```
 
-Reemplaza `TU_USUARIO`, `usuario` y `contraseña` por tus credenciales de PostgreSQL. Los comandos pedirán la contraseña. Si contiene caracteres especiales como `@`, `:` o `#`, codifícalos en la URL. Crea la base y aplica el esquema solo la primera vez, sobre una base vacía.
+Reemplaza el usuario y la contraseña con tus credenciales. Crea la base y aplica el esquema solo la primera vez. Las variables deben configurarse en la terminal donde se inicia el servidor.
 
-Las variables exportadas duran solo en esa terminal; `.env.example` es una referencia y no se carga automáticamente. La API escucha en el puerto 3000.
+## Pruebas
 
-Para conectar el frontend, crea `.env.local` en la raíz del proyecto:
-
-```env
-VITE_USE_MOCK=false
-VITE_API_URL=http://localhost:3000/api
-```
-
-Reinicia el frontend y registra una cuenta nueva.
-
-## Pruebas del backend
-
-Desde `backend`, ejecuta las pruebas con la base de datos local:
+Desde `backend`, con una base de datos disponible y permiso para crear esquemas:
 
 ```sh
-export TEST_DATABASE_URL='postgresql://usuario:contraseña@localhost:5432/mercado_verde'
-npm test
+TEST_DATABASE_URL='postgresql://usuario:contraseña@localhost:5432/mercado_verde' npm test
 ```
-
-Reemplaza las credenciales por las de PostgreSQL. El usuario debe tener permiso para crear esquemas en la base de datos. Las pruebas crean y eliminan su propio esquema; no necesitan que el servidor esté en ejecución.
