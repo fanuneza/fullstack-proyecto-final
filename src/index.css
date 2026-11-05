@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/* Paleta acordada en Hito 1: verde bosque, papel cálido, arcilla para foco. */
+@theme {
+  --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-forest: #245c36;
+  --color-forest-dark: #173e24;
+  --color-ink: #202a24;
+  --color-paper: #fafbf9;
+  --color-line: #d7dfd7;
+  --color-field: #798879;
+  --color-clay: #b66b16;
+  --color-danger: #a32222;
+  --color-mist: #eef3e9;
+  --color-fallback: #e9eee7;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-paper);
+    line-height: 1.6;
+    font-synthesis: none;
+  }
+  body { margin: 0; min-width: 320px; }
+  main { overflow-wrap: anywhere; }
+  a { color: var(--color-forest); text-decoration: underline; text-underline-offset: 3px; }
+  a:hover { color: var(--color-forest-dark); }
+  h1, h2, h3 { font-weight: 700; }
+  p { max-width: 72ch; }
+  img { display: block; max-width: 100%; object-fit: cover; }
+  button, input, textarea, select { font: inherit; }
+  :focus-visible { outline: 3px solid var(--color-clay); outline-offset: 3px; }
+}
