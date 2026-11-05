@@ -19,7 +19,9 @@ export function PlantImage({ src, nombre, className }) {
 
 export function PlantCard({ planta }) {
   return <article className="overflow-hidden rounded border border-line bg-white">
-    <PlantImage src={planta.imagen_url} nombre={planta.nombre} className="h-60 w-full" />
+    <Link to={`/plantas/${planta.id}`} aria-label={`Ver detalle de ${planta.nombre}`}>
+      <PlantImage src={planta.imagen_url} nombre={planta.nombre} className="h-60 w-full" />
+    </Link>
     <div className="p-5">
       <h2 className="m-0 mb-3 text-xl"><Link to={`/plantas/${planta.id}`}>{planta.nombre}</Link></h2>
       <p className="my-2">{modalidades[planta.modalidad]}</p>

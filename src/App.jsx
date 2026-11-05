@@ -6,7 +6,6 @@ import { PlantGrid, PlantImage, ResourceState, buttonCls, modalidades, precio } 
 import { useResource } from './useResource'
 import { AuthForm, PublishForm } from './forms'
 import { PlantMark } from './PlantMark'
-import heroPlantas from './hero-plantas.webp'
 
 const navCls = ({ isActive }) => `no-underline ${isActive ? 'font-bold underline' : 'hover:underline'}`
 
@@ -48,7 +47,7 @@ function PrivateRoute() {
 function Home() {
   return <>
     <section className="flex min-h-[440px] items-center bg-forest-dark bg-cover bg-center px-6 py-12 text-white md:px-12 md:py-16"
-      style={{ backgroundImage: `linear-gradient(rgb(0 0 0 / 65%), rgb(0 0 0 / 65%)), url(${heroPlantas})` }}>
+      style={{ backgroundImage: 'linear-gradient(rgb(0 0 0 / 65%), rgb(0 0 0 / 65%)), url(/hero-plantas.webp)' }}>
       <div className="max-w-[600px]">
       <h1 className="mb-6 max-w-[20ch] text-3xl leading-tight md:text-4xl">Encuentra un nuevo hogar para tus plantas</h1>
       <p className="text-xl">Compra, vende o intercambia con otras personas.</p>
