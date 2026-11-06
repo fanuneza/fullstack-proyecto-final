@@ -30,7 +30,8 @@ export function AuthForm({ register = false }) {
     if (register && values.nombre.trim().length > 100) nextErrors.nombre = 'El nombre admite hasta 100 caracteres.'
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.correo)) nextErrors.correo = 'Ingresa un correo válido.'
     if (values.correo.length > 255) nextErrors.correo = 'El correo admite hasta 255 caracteres.'
-    if (!values.password) nextErrors.password = 'Ingresa tu contraseña.'
+    if (!values.password.trim()) nextErrors.password = 'Ingresa tu contraseña.'
+    if (new TextEncoder().encode(values.password).length > 72) nextErrors.password = 'La contraseña admite hasta 72 bytes; las tildes y los emojis pueden ocupar varios bytes.'
     if (register && values.confirmacion !== values.password) nextErrors.confirmacion = 'Las contraseñas no coinciden.'
     setErrors(nextErrors); setError('')
     if (Object.keys(nextErrors).length) return
