@@ -27,7 +27,7 @@ function createApp(db, secret) {
     if (!match) return unauthorized(res)
     let payload
     try { payload = jwt.verify(match[1], secret, { algorithms: ['HS256'] }) } catch { return unauthorized(res) }
-    if (!Number.isInteger(payload.id) || payload.id < 1) return unauthorized(res)
+    if (!Number.isInteger(payload.id) || payload.id < 1 || payload.id > 2147483647) return unauthorized(res)
     const result = await db.query('SELECT id, nombre, correo FROM usuarios WHERE id = $1', [payload.id])
     if (!result.rows[0]) return unauthorized(res)
     req.usuario = result.rows[0]
@@ -83,12 +83,14 @@ function createApp(db, secret) {
     const result = await db.query(`INSERT INTO publicaciones
       (usuario_id, nombre, descripcion, modalidad, precio_clp, condiciones_intercambio, ubicacion, imagen_url, contacto_url)
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id`,
-    [req.usuario.id, p.nombre.trim(), p.descripcion.trim(), p.modalidad, p.precio_clp, p.condiciones_intercambio === null ? null : p.condiciones_intercambio.trim(), p.ubicacion.trim(), p.imagen_url.trim(), p.contacto_url.trim()])
+    [req.usuario.id, p.nombre.trim(), p.descripcion.trim(), p.modalidad, p.precio_clp, p.condiciones_intercambio === null ? null : p.condiciones_intercambio.trim(), p.ubicacion.trim(), new URL(p.imagen_url).href, new URL(p.contacto_url).href])
     const created = await db.query(detail, [result.rows[0].id])
     res.status(201).json(created.rows[0])
   })
   app.use((err, req, res, next) => {
     if (err.type === 'entity.parse.failed') return invalid(res)
+    if (err.type === 'entity.too.large') return error(res, 413, 'CUERPO_DEMASIADO_GRANDE', 'La solicitud supera el límite de 100 KB.')
+    if (err.status === 415) return error(res, 415, 'FORMATO_NO_ADMITIDO', 'Usa JSON con codificación UTF-8.')
     console.error(err)
     error(res, 500, 'ERROR_INTERNO', 'No se pudo completar la solicitud.')
   })
